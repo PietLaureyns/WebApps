@@ -1,0 +1,11 @@
+<div class="card">
+  <div class="card-header">
+    Songs
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item" *ngFor="let song of songs">
+      {{song.toString()}}, {{song.genre}}, {{song.year}}, {{song.link}}, {{song.id}}
+    </li>
+  </ul>
+</div>
+<app-add-song></app-add-song>

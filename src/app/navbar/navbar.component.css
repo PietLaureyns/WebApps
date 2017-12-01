@@ -1,0 +1,76 @@
+nav li a {
+    color: white;
+    text-decoration: none;
+    
+  }
+  
+  nav li {
+    margin: 0;
+    padding: 0;
+  }
+  
+    nav li a:hover {
+      color: white;
+      text-decoration: none;
+      background-color: cornflowerblue;
+      opacity: 0.8;
+      
+    }
+  
+  .navbar-brand {
+    color: white;
+    font-size: 150%;
+    opacity: 0.9;
+  }
+  .navbar-brand:hover {
+    color: white;
+    opacity: 0.6;
+    font-size: 150%;
+    text-decoration: none;
+  }
+  
+  .navbar-nav {
+    align-items: center;
+  }
+  
+  .active-current {
+    color: white !important;
+    background-color: cornflowerblue;
+    
+  }
+  
+  nav {
+    
+    background-size: 100%;
+    font-size: 150%;
+  }
+  
+  #dropdownBasic1 {
+    border: none;
+    font-size: 130%;
+    color: white;
+  }
+  
+  .dropdown-item {
+    font-size: 150%;
+  }
+  
+  .dropdown-item:hover {
+    background-color: aliceblue;
+  }
+  
+  
+  .dropdown-toggle::after {
+    display:none;
+  }
+  
+  /*a.active-link {
+    opacity: 0.8;
+    filter: alpha(opacity=50);
+  }*/
+  .navbar-inverse .navbar-nav > .active > a,
+  .navbar-inverse .navbar-nav > .active > a:hover,
+  .navbar-inverse .navbar-nav > .active > a:focus {
+    background-color: white;
+    opacity: 0.5;
+  }

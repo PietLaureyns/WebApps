@@ -1,0 +1,34 @@
+<div class="card col-4" style="margin-left: 3%;">
+  <div class="card-header">
+    Add new Song
+  </div>
+  <div class="card-block">
+    <form [formGroup]="song" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <label class="col-form-label col-4">Songname: </label>
+        <div class="col-8">
+          <input type="text" class="form-control" formControlName="name">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-4">Artist/Band: </label>
+        <div class="col-8">
+          <input type="text" class="form-control" formControlName="artist">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-4">Genre: </label>
+        <div class="col-8">
+          <input type="text" class="form-control" formControlName="genre">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-4">Release year: </label>
+        <div class="col-8">
+          <input type="text" class="form-control" formControlName="year">
+        </div>
+      </div>
+      <button class="btn btn-success">Submit</button>
+    </form>
+  </div>
+</div>
