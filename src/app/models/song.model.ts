@@ -1,6 +1,6 @@
-﻿export class Song {
+export class Song {
 
-  private _id: string
+  private _id: string;
 
   constructor(
     private _name: string,
@@ -41,7 +41,11 @@
   }
 
   toString() {
-    return this._name + " by " + this._artist;
+    return ""+this._artist + " - " + this._name;
+  }
+
+  hasLink(){
+    return this._link.length > 0;
   }
 
   public toJSON() {
@@ -50,9 +54,8 @@
       artist: this.artist,
       genre: this.genre,
       year: this.year,
-      link: this.link
+      link: this.link,
+      _id: this.id
     }
   }
-
-
 }

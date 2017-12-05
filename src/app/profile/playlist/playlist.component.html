@@ -1,0 +1,36 @@
+<div class="col-8 offset-2">
+  <div class="card">
+    <div class="card-header row">
+      <div class="col-2">
+        <button class="btn btn-default float-left" routerLink="/profile"><i class="fa fa-mail-reply"></i> Back</button>
+      </div>
+      <div class="col-8 text-center">
+        <h1 style="border: solid 5px black;">{{selectedPlaylist.name}}</h1>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-default float-right" (click)="removePlaylist()" routerLink="/profile">Remove Playlist</button>
+        <button class="btn btn-default float-right" (click)="addSong()">Add Song</button>
+      </div>
+  </div>
+  <div class="card-block">
+    <ul class="list-group" *ngIf="selectedPlaylist.songs != undefined">
+      <li class="list-group-item row" *ngFor="let song of selectedPlaylist.songs">
+        <div class="col-6">
+          {{song.toString()}}
+        </div>
+        <div class="col-2">
+          <b>Genre:</b> {{song.genre}}
+        </div>
+        <div class="col-2">
+          <b>Release year:</b> {{song.year}}
+        </div>
+        <div class="col-2">
+          <button class="float-right btn btn-danger"(click)="removeSong(song)">
+            <i class="fa fa-remove"></i>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>

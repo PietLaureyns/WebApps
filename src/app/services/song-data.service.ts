@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { Song } from './song.model'
+import { Song } from '../models/song.model'
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
@@ -21,6 +21,11 @@ export class SongDataService {
     .map(res => res.json()).map(item => new Song(item.name, item.artist, item.genre, item.year, item.link));
   }
 
+  removeSong(rec) {
+    console.log(rec.id);
+    return this.http.delete(`/API/songs/${rec.id}`).map(res => res.json()).map(item => Song.fromJSON(item));
+  }
+
 
   initializeData() {
     console.log("Data Initialize");
@@ -35,11 +40,11 @@ export class SongDataService {
       let song4 = new Song("Carry On Wayward Son", "Kansas", "Rock", 1976, "https://www.youtube.com/watch?v=2X_2IdybTV0");
       let song5 = new Song("Take Me On", "a-ha", "Pop", 1984, "https://www.youtube.com/watch?v=djV11Xbc914");
 
-      this.addNewSong(song1);
-      this.addNewSong(song2);
-      this.addNewSong(song3);
-      this.addNewSong(song4);
-      this.addNewSong(song5);
+      this.addNewSong(song1).subscribe();
+      this.addNewSong(song2).subscribe();
+      this.addNewSong(song3).subscribe();
+      this.addNewSong(song4).subscribe();
+      this.addNewSong(song5).subscribe();
     //}
   }
 }

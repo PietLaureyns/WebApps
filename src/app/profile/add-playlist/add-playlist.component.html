@@ -1,0 +1,47 @@
+<div class="">
+  <div class="card-header row">
+    <div class="col-2">
+      <button class="btn btn-primary" (click)="cancel()"><i class="fa fa-mail-reply"></i></button>
+    </div>
+    <div class="col-4 offset-2 justify-content-md-center" style="text-align:center">
+      <h1>New Playlist</h1>
+    </div>
+  </div>
+  <div class="card-block col-8 offset-2">
+    <form [formGroup]="playlist" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <div class="col-3">
+          <label class="col-form-label float-right">Playlist name: </label>
+        </div>
+        <div class="col-8">
+          <input type="text" class="form-control" formControlName="name">
+          <div *ngIf='playlist.get("name").errors?.required && playlist.get("name").touched' class="error">
+            Playlist must have a name.
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-3">
+          <label class="col-form-label float-right"></label>
+        </div>
+        <div class="col-8">
+          <input type="radio" class="form-control" formControlName="isPublic" /> public
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-3">
+          <label class="col-form-label float-right">Description: </label>
+        </div>
+        <div class="col-8">
+          <textarea type="text" class="form-control" formControlName="description"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-8 offset-3" style="margin-bottom:1%;">
+          <button type="submit" class="btn btn-success float-left" [disabled]="!playlist.valid"><i class="fa fa-check"></i> Submit</button>
+          <button type="button" class="btn btn-danger float-right" (click)="cancel()"><i class="fa fa-remove"></i> Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

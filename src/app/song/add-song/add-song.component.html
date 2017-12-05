@@ -1,34 +1,81 @@
-<div class="card col-4" style="margin-left: 3%;">
-  <div class="card-header">
-    Add new Song
+
+<div class="card-header row">
+  <div class="col-2">
+    <button class="btn btn-primary" (click)="cancel()"><i class="fa fa-mail-reply"></i></button>
   </div>
-  <div class="card-block">
-    <form [formGroup]="song" (ngSubmit)="onSubmit()">
-      <div class="form-group row">
-        <label class="col-form-label col-4">Songname: </label>
-        <div class="col-8">
-          <input type="text" class="form-control" formControlName="name">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-form-label col-4">Artist/Band: </label>
-        <div class="col-8">
-          <input type="text" class="form-control" formControlName="artist">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-form-label col-4">Genre: </label>
-        <div class="col-8">
-          <input type="text" class="form-control" formControlName="genre">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-form-label col-4">Release year: </label>
-        <div class="col-8">
-          <input type="text" class="form-control" formControlName="year">
-        </div>
-      </div>
-      <button class="btn btn-success">Submit</button>
-    </form>
+  <div class="col-4 offset-2 justify-content-md-center" style="text-align:center">
+    <h1>New Song</h1>
   </div>
 </div>
+<div class="card-block col-8 offset-2">
+  <form [formGroup]="song" (ngSubmit)="onSubmit()">
+    <div class="form-group row">
+      <div class="col-3">
+        <label class="col-form-label float-right">Songname: </label>
+      </div>
+      <div class="col-8">
+        <input type="text" class="form-control" formControlName="name">
+        <div *ngIf='song.get("name").errors?.required && song.get("name").touched' class="error">
+          Release year must be entered.
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-3">
+        <label class="col-form-label float-right">Artist/band: </label>
+      </div>
+      <div class="col-8">
+        <input type="text" class="form-control" formControlName="artist">
+        <div *ngIf='song.get("artist").errors?.required && song.get("artist").touched' class="error">
+          Release year must be entered.
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-3">
+        <label class="col-form-label float-right">Genre: </label>
+      </div>
+      <div class="col-8">
+        <select class="form-control" formControlName="genre">
+          <option *ngFor="let genre of genres" [value]="genre">{{genre}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-3">
+        <label class="col-form-label float-right">Release year:</label>
+      </div>
+      <div class="col-6">
+        <input type="text" class="form-control form-control-danger" formControlName="year">
+        <div *ngIf='song.get("year").errors?.required && song.get("year").touched' class="error">
+          Release year must be entered.
+        </div>
+        <div *ngIf='song.get("year").errors?.max && song.get("year").touched' class="error">
+          Year cannot be in the future.
+        </div>
+        <div *ngIf='song.get("year").errors?.pattern && song.get("year").touched' class="error">
+          Must be a 4 digit number.
+        </div>
+      </div>
+    </div>
+
+      <!--<div class="alert alert-danger" *ngIf='song.get("year").errors?.required && song.get("year").touched' class="error">
+        Release year must be entered.
+      </div>-->
+    <div class="form-group row">
+      <div class="col-3">
+        <label class="col-form-label float-right">Link: </label>
+      </div>
+      <div class="col-8">
+        <input type="text" class="form-control" formControlName="link" placeholder="http://www.youtube.com">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-8 offset-3" style="margin-bottom:1%;">
+        <button type="submit" class="btn btn-success float-left" [disabled]="!song.valid"><i class="fa fa-check"></i> Submit</button>
+        <button type="button" class="btn btn-danger float-right" (click)="cancel()"><i class="fa fa-remove"></i> Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
+

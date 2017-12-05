@@ -1,0 +1,30 @@
+.removeButton{
+    background-color:white;
+    border:none;
+    color:tomato;
+    font-size: 150%;
+    cursor: pointer;
+    padding:0%;
+}
+
+.ngbPanelTitle {
+  background-color: red;  
+}
+
+.songLink {
+  padding-right: 0%;
+}
+
+.song {
+  font-size: 115%;
+  cursor: pointer;
+}
+
+
+a.song:hover {
+  color: red;
+}
+
+/*.col-2 {
+  border: solid black 2px;
+}*/
