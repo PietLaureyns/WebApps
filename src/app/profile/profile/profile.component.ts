@@ -15,16 +15,12 @@ export class ProfileComponent implements OnInit {
   songs: Song[];
   selectedPlaylist: Playlist;
   addingNewPlaylist: boolean = false;
+  alertAddedMessage;
+  alertRemovedMessage;
 
   constructor(private playlistService: PlaylistDataService, private songService: SongDataService) { }
 
   ngOnInit() {
-    //let song1 = new Song("testSong", "testArtist", "Rock", 2000, "www.google.com");
-    //let testSongs: Song[] = [];
-    //testSongs.push(song1);
-    //let playlist1 = new Playlist("My playlist3", testSongs, true, "beschrijving!!!!!!!!!!!");
-    //console.log(playlist1);
-    //this.playlistService.addNewPlaylist(playlist1).subscribe();
     this.playlistService.playlists.subscribe(item => this.playlists = item);
   }
 
@@ -35,9 +31,13 @@ export class ProfileComponent implements OnInit {
 
   addNewPlaylistClick() {
     this.addingNewPlaylist = true;
+    
   }
 
   addNewPlaylist(playlist) {
+    this.playlistService.addNewPlaylist(playlist).subscribe(item => this.playlists.push(item));
+    this.alertAddedMessage = "Created " + playlist.name;
+    setTimeout(() => this.alertAddedMessage = null, 5000);
     this.addingNewPlaylist = false;
   }
 

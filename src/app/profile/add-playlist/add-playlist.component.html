@@ -1,17 +1,19 @@
-<div class="">
-  <div class="card-header row">
-    <div class="col-2">
-      <button class="btn btn-primary" (click)="cancel()"><i class="fa fa-mail-reply"></i></button>
-    </div>
-    <div class="col-4 offset-2 justify-content-md-center" style="text-align:center">
-      <h1>New Playlist</h1>
+<div class="card">
+  <div class="card-header container-fluid col-12">
+    <div class="row">
+      <div class="col-2">
+        <button class="btn btn-primary" (click)="cancel()"><i class="fa fa-mail-reply"></i></button>
+      </div>
+      <div class="col-5 offset-2 justify-content-md-center" style="text-align: center">
+        <h1>New Playlist</h1>
+      </div>
     </div>
   </div>
   <div class="card-block col-8 offset-2">
     <form [formGroup]="playlist" (ngSubmit)="onSubmit()">
       <div class="form-group row">
         <div class="col-3">
-          <label class="col-form-label float-right">Playlist name: </label>
+          <label class="col-form-label float-right"><b>Playlist name:</b></label>
         </div>
         <div class="col-8">
           <input type="text" class="form-control" formControlName="name">
@@ -22,15 +24,15 @@
       </div>
       <div class="form-group row">
         <div class="col-3">
-          <label class="col-form-label float-right"></label>
+          <label class="col-form-label float-right"><b>Public:</b></label>
         </div>
-        <div class="col-8">
-          <input type="radio" class="form-control" formControlName="isPublic" /> public
+        <div class="col-1">
+          <input type="radio" class="form-control float-left" style="margin-top: 60%;" formControlName="isPublic" />
         </div>
       </div>
       <div class="form-group row">
         <div class="col-3">
-          <label class="col-form-label float-right">Description: </label>
+          <label class="col-form-label float-right"><b>Description:</b></label>
         </div>
         <div class="col-8">
           <textarea type="text" class="form-control" formControlName="description"></textarea>

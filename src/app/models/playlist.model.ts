@@ -55,6 +55,13 @@ export class Playlist {
     return this._songs.find(s => s.id === song.id) !== undefined;
   }
 
+  getVisiblity(): string {
+    if (this._isPublic)
+      return "Public";
+    else
+      return "Private";
+  }
+
   public toJSON() {
     return {
       name: this.name,

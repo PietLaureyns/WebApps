@@ -1,70 +1,112 @@
-<div class="card col-6 offset-3">
-  <div *ngIf="!addingNewSong">
-    <div class="card-header row">
-      <div class="col-2">
-        <h2>Songs</h2>
+<div class="row">
+  <div class="card col-6 offset-3">
+    <div *ngIf="!addingNewSong">
+      <div class="card-header row">
+        <div class="col-2">
+          <h2>Songs</h2>
+        </div>
+        <div class="col-5 offset-1" style="padding-right: 1%">
+          <input class="form-control" #searchInput />
+        </div>
+        <div class="col-2" style="padding-left: 0">
+          <button class="btn btn-default float-left" (click)="search(searchInput.value);filter(genre.value,year.value,artist.checked,songname.checked)" (keyup.enter)="search(searchInput.value)"><i class="fa fa-search"></i> Search</button>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary float-right" (click)="addNewSongButtonClicked()"><i class="fa fa-plus"></i> Add Song</button>
+        </div>
       </div>
-      <div class="col-5 offset-1">
-        <input class="form-control" />
-      </div>
-      <div class="col-2">
-        <button class="btn btn-default float-left"><i class="fa fa-search"></i> Search</button>
-      </div>
-      <div class="col-2">
-        <button class="btn btn-primary float-right" (click)="addNewSongButtonClicked()"><i class="fa fa-plus"></i> Add Song</button>
+      <div class="card-block songs">
+        <ngb-accordion #acc="ngbAccordion" [closeOthers]="true" (panelChange)="beforeChange($event)">
+          <ngb-panel id="{{i}}" *ngFor="let song of filteredSongs; let i = index">
+            <ng-template ngbPanelTitle>
+              <div class="row col-12">
+                <div class="col-11">
+                  <div class="song">{{song.toString()}}</div>
+                </div>
+                <div class="col-1">
+                  <button type="button" class="btn btn-danger removeButton float-right" (click)="removeSongClick(song)"><i class="fa fa-close"></i></button>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div class="card-block row">
+                <div class="col-9"><b>Genre:</b> {{song.genre}}</div>
+                <div class="col-2">
+                  <a class="btn btn-default float-right songLink" href="{{song.link}}" *ngIf="song.hasLink()" target="_blank">Link to Song</a>
+                </div>
+                <div class="col-9"><b>Release year:</b> {{song.year}}</div>
+                <div class="col-2">
+                  <button class="btn btn-primary float-right" style="padding: 5%;" md-button [matMenuTriggerFor]="appMenu">
+                    <i class="fa fa-plus"></i> Add to playlist
+                  </button>
+                  <mat-menu #appMenu="matMenu" md-position-mode="target-right bottom">
+                    <div *ngFor="let playlist of playlists">
+                      <button *ngIf="!playlist.hasSong(song)" mat-menu-item (click)="addSongToPlaylist(song, playlist)">
+                        {{playlist.name}}
+                      </button>
+                      <button *ngIf="playlist.hasSong(song)" mat-menu-item (click)="addSongToPlaylist(song, playlist)">
+                        <i class="fa fa-check"></i> {{playlist.name}}
+                      </button>
+                    </div>
+
+                  </mat-menu>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
       </div>
     </div>
-    <div class="card-block">
-
-      <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
-        <ngb-panel id="{{i}}" *ngFor="let song of songs; let i = index">
-          <ng-template ngbPanelTitle>
-            <div class="row col-12">
-              <div class="col-11">
-                <a class="song" (click)="songClicked(song.id)">{{song.toString()}}</a>
-              </div>
-              <!--<div class="col-1">
-                <a class="float-right" href="{{song.link}}" *ngIf="song.hasLink()">link</a>
-              </div>-->
-              <div class="col-1">
-                <button class="btn btn-danger removeButton float-right" (click)="removeSong(song)"><i class="fa fa-close"></i></button>
-              </div>
-            </div>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <div class="card-block row">
-              <div class="col-9"><b>Genre:</b> {{song.genre}}</div>
-              <div class="col-2">
-                <a class="btn btn-default float-right songLink" href="{{song.link}}" *ngIf="song.hasLink()" target="_blank">Link to Song</a>
-              </div>
-              <div class="col-9"><b>Release year:</b> {{song.year}}</div>
-              <div class="col-2">
-                <button class="btn btn-primary float-right" style="padding: 5%;" md-button [matMenuTriggerFor]="appMenu">
-                  <i class="fa fa-plus"></i> Add to playlist
-                </button>
-                <mat-menu #appMenu="matMenu" md-position-mode="target-right bottom">
-                  <div *ngFor="let playlist of playlists">
-                    <button *ngIf="!playlist.hasSong(song)" mat-menu-item (click)="addSongToPlaylist(song, playlist)">
-                      {{playlist.name}}
-                    </button>
-                    <button *ngIf="playlist.hasSong(song)" mat-menu-item (click)="addSongToPlaylist(song, playlist)">
-                      <i class="fa fa-check"></i> {{playlist.name}}
-                    </button>
-                  </div>
-
-                </mat-menu>
-              </div>
-            </div>
-          </ng-template>
-        </ngb-panel>
-      </ngb-accordion>
+    <div *ngIf="addingNewSong">
+      <div>
+        <app-add-song (newSong)="addNewSong($event)" (cancelNewSong)="cancelNewSong($event)"></app-add-song>
+      </div>
+      <div>
+        <ngb-alert *ngIf="alertSuccessMessage" type="success" (close)="alertSuccessMessage = null">{{ alertSuccessMessage }}</ngb-alert>
+      </div>
+      <div>
+        <ngb-alert *ngIf="alertWarningMessage" type="danger" (close)="alertWarningMessage = null">{{ alertWarningMessage }}</ngb-alert>
+      </div>
     </div>
   </div>
-  <div *ngIf="addingNewSong">
-    <app-add-song (newSong)="addNewSong($event)" (cancelNewSong)="cancelNewSong($event)"></app-add-song>
-  </div>
-  <div>
-    <ngb-alert *ngIf="alertSuccessMessage" type="success" (close)="alertSuccessMessage = null">{{ alertSuccessMessage }}</ngb-alert>
-    <ngb-alert *ngIf="alertWarningMessage" type="danger" (close)="alertWarningMessage = null">{{ alertWarningMessage }}</ngb-alert>
+  <div class="col-2" *ngIf="!addingNewSong">
+    <div class="card">
+      <div class="card-header">
+        <h3>Filter</h3>
+      </div>
+      <div class="card-block">
+        <div>
+          <select class="form-control col-8 m-1" #genre>
+            <option *ngFor="let genre of genres">{{genre}}</option>
+          </select>
+        </div>
+        <div>
+          <select class="form-control col-8 m-1" #year>
+            <option>No Year filter</option>
+            <option>2017</option>
+            <option>2016</option>
+            <option>2010 - 2015</option>
+            <option>2000 - 2009</option>
+            <option>1990 - 1999</option>
+            <option>1980 - 1989</option>
+            <option>1970 - 1979</option>
+            <option>1960 - 1969</option>
+            <option>........ - 1959</option>
+          </select>
+        </div>
+        <div class="row m-1">
+          <label class="col-3 float-right">Artist:</label>
+          <input type="checkbox" class="form-control col-5 float-left mt-2" #artist />
+        </div>
+        <div class="row m-1">
+          <label class="col-3 float-right">Songname:</label>
+          <input type="checkbox" class="form-control col-5 float-left mt-2" #songname />
+        </div>
+        <div class="mt-3 ml-3">
+          <button class="btn btn-primary" (click)="filter(genre.value,year.value,artist.checked,songname.checked)"><i class="fa fa-filter"></i> Filter</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+

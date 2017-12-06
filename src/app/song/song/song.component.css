@@ -20,6 +20,11 @@
   cursor: pointer;
 }
 
+.songs {
+  max-height: 45em;
+  overflow-y: scroll;
+}
+
 
 a.song:hover {
   color: red;

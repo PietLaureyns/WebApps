@@ -25,7 +25,7 @@ export class PlaylistDataService {
 
   addNewPlaylist(playlist: Playlist) {
     return this.http.post("/API/playlists", playlist)
-      .map(res => res.json()).map(item => new Playlist(item.name, item.songs, item.isPublic, item.beschrijving));
+      .map(res => res.json()).map(item => Playlist.fromJSON(item));
   }
 
   addSongToPlaylist(song: Song, playlist: Playlist): Observable<Song> {

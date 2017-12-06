@@ -16,14 +16,15 @@ export class SongDataService {
       .map(response => response.json().map(item => Song.fromJSON(item)));
   }
 
-  addNewSong(song:Song) {
+  addNewSong(song:Song): Observable<Song> {
     return this.http.post("/API/songs", song)
-    .map(res => res.json()).map(item => new Song(item.name, item.artist, item.genre, item.year, item.link));
+    .map(res => res.json()).map(item => Song.fromJSON(item));
   }
 
-  removeSong(rec) {
-    console.log(rec.id);
-    return this.http.delete(`/API/songs/${rec.id}`).map(res => res.json()).map(item => Song.fromJSON(item));
+  removeSong(rec)/*: Observable<Song>*/ {
+    return this.http.delete(`/API/songs/${rec.id}`);
+    //.map(res => res.json()).map(item => console.log(item));
+
   }
 
 

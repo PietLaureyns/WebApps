@@ -1,0 +1,13 @@
+textarea {
+  resize: none;
+  height: 6em;
+}
+
+label {
+  font-size: 115%;
+}
+
+.error {
+  font-size: 80%;
+  color: red;
+}
