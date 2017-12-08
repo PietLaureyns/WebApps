@@ -5,8 +5,22 @@ let jwt = require('jsonwebtoken');
 let UserSchema = new mongoose.Schema({
   username: { type: String, lowercase: true, unique: true },
   hash: String,
-  salt: String
+  salt: String,
+  firstname: String,
+  lastname: String,
+  description: String,
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  playlists: [{ type: mongoose.Schema.Types.ObjectId, ref: "Playlist" }],
+  recentActions: [{ type: mongoose.Schema.Types.Object, ref: "Action" }]
 });
+
+UserSchema.methods.addPlaylistId = function(playlistId) {
+   this.playlists.push(playlistId);
+}
+
+UserSchema.methods.removePlaylistId = function (playlistId) {
+  this.playlists.splice(this.playlists.indexOf(playlistId), 1);
+}
 
 UserSchema.methods.setPassword = function (password) {
   this.salt = crypto.randomBytes(32).toString('hex');
@@ -28,7 +42,7 @@ UserSchema.methods.generateJWT = function () {
     _id: this._id,
     username: this.username,
     exp: parseInt(exp.getTime() / 1000)
-  }, process.env.WEBAPP_BACKEND_SECRET);
+  }, process.env.SECRET);
 };
 
 mongoose.model('User', UserSchema);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Playlist } from '../../models/playlist.model';
 
@@ -11,6 +11,7 @@ export class AddPlaylistComponent implements OnInit {
 
   @Output() newPlaylist = new EventEmitter<Playlist>();
   @Output() cancelNewPlaylist = new EventEmitter<boolean>();
+  @Input() userId;
 
   public playlist: FormGroup;
 
@@ -29,7 +30,8 @@ export class AddPlaylistComponent implements OnInit {
       this.playlist.value.name,
       [],
       this.playlist.value.isPublic,
-      this.playlist.value.description
+      this.playlist.value.description,
+      this.userId
     );
 
     this.newPlaylist.emit(playlist);

@@ -16,7 +16,7 @@
       <div class="col-8">
         <input type="text" class="form-control" formControlName="name">
         <div *ngIf='song.get("name").errors?.required && song.get("name").touched' class="error">
-          Release year must be entered.
+          Songname is required.
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
       <div class="col-8">
         <input type="text" class="form-control" formControlName="artist">
         <div *ngIf='song.get("artist").errors?.required && song.get("artist").touched' class="error">
-          Release year must be entered.
+          Artist is required.
         </div>
       </div>
     </div>
@@ -58,16 +58,15 @@
         </div>
       </div>
     </div>
-
-      <!--<div class="alert alert-danger" *ngIf='song.get("year").errors?.required && song.get("year").touched' class="error">
-        Release year must be entered.
-      </div>-->
     <div class="form-group row">
       <div class="col-3">
         <label class="col-form-label float-right">Link: </label>
       </div>
       <div class="col-8">
         <input type="text" class="form-control" formControlName="link" placeholder="http://www.youtube.com">
+        <div *ngIf='song.get("link").errors?.pattern && song.get("link").touched' class="error">
+          Must be a link.
+        </div>
       </div>
     </div>
     <div class="row">

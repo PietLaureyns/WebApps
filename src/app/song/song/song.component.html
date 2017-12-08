@@ -20,12 +20,13 @@
           <ngb-panel id="{{i}}" *ngFor="let song of filteredSongs; let i = index">
             <ng-template ngbPanelTitle>
               <div class="row col-12">
-                <div class="col-11">
+                <div class="col-12 text-center">
                   <div class="song">{{song.toString()}}</div>
                 </div>
-                <div class="col-1">
+                <!--<div class="col-1">
+                  Deze button moet een report button worden die mij een mail stuurt zodat ik hem dan via db kan aanpassen
                   <button type="button" class="btn btn-danger removeButton float-right" (click)="removeSongClick(song)"><i class="fa fa-close"></i></button>
-                </div>
+                </div>-->
               </div>
             </ng-template>
             <ng-template ngbPanelContent>
@@ -36,7 +37,7 @@
                 </div>
                 <div class="col-9"><b>Release year:</b> {{song.year}}</div>
                 <div class="col-2">
-                  <button class="btn btn-primary float-right" style="padding: 5%;" md-button [matMenuTriggerFor]="appMenu">
+                  <button *ngIf="playlists.length > 0" class="btn btn-primary float-right" style="padding: 5%;" md-button [matMenuTriggerFor]="appMenu">
                     <i class="fa fa-plus"></i> Add to playlist
                   </button>
                   <mat-menu #appMenu="matMenu" md-position-mode="target-right bottom">
@@ -48,7 +49,6 @@
                         <i class="fa fa-check"></i> {{playlist.name}}
                       </button>
                     </div>
-
                   </mat-menu>
                 </div>
               </div>
@@ -57,16 +57,16 @@
         </ngb-accordion>
       </div>
     </div>
-    <div *ngIf="addingNewSong">
-      <div>
-        <app-add-song (newSong)="addNewSong($event)" (cancelNewSong)="cancelNewSong($event)"></app-add-song>
-      </div>
+    <div *ngIf="!addingNewSong">
       <div>
         <ngb-alert *ngIf="alertSuccessMessage" type="success" (close)="alertSuccessMessage = null">{{ alertSuccessMessage }}</ngb-alert>
       </div>
       <div>
         <ngb-alert *ngIf="alertWarningMessage" type="danger" (close)="alertWarningMessage = null">{{ alertWarningMessage }}</ngb-alert>
       </div>
+    </div>
+    <div *ngIf="addingNewSong">
+      <app-add-song (newSong)="addNewSong($event)" (cancelNewSong)="cancelNewSong($event)"></app-add-song>
     </div>
   </div>
   <div class="col-2" *ngIf="!addingNewSong">

@@ -1,0 +1,22 @@
+<div class="col-6 offset-3">
+  <div class="card">
+    <div class="card-header text-center">
+      <h2>People on this website</h2>
+    </div>
+    <div class="card-block">
+      <div class="card-deck">
+        <div class="card col-3" *ngFor="let person of people">
+          <div class="card-header text-center" style="padding-right: 0%; padding-left: 0%;">
+            <b>{{person.firstname}} {{person.lastname}}</b>
+          </div>
+          <div class="card-block text-center">
+            <button *ngIf="person.id != userId" class="btn btn-outline-primary personButton" routerLink="/profile/{{person.id}}">Profile</button>
+            <button *ngIf="person.id == userId" class="btn btn-outline-primary personButton" routerLink="/profile">Your Profile</button>
+            <button class="btn btn-outline-primary personButton"><i class="fa fa-plus"></i>  Add friend</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

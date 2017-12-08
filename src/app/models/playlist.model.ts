@@ -6,10 +6,10 @@ export class Playlist {
 
   constructor(
     private _name: string,
-    //private _songIds: String[],
     private _songs: Song[],
-    private _isPublic: boolean,
-    private _beschrijving: string//false = private playlist  |   true = public playlist
+    private _isPublic: boolean, //false = private playlist  |   true = public playlist
+    private _beschrijving: string,
+    private _creatorId: string
   ) {
  
   }
@@ -20,7 +20,7 @@ export class Playlist {
         songs2.push(Song.fromJSON(song));
       }
     );
-    const rec = new Playlist(json.name, songs2, json.isPublic, json.beschrijving);
+    const rec = new Playlist(json.name, songs2, json.isPublic, json.beschrijving, json.creatorId);
     rec._id = json._id;
     return rec;
   }
@@ -33,9 +33,6 @@ export class Playlist {
     return this._name;
   }
 
-  //get songIds() {
-  //  return this._songIds;
-  //}
   get songs() {
     return this._songs;
   }
@@ -45,6 +42,10 @@ export class Playlist {
 
   get beschrijving() {
     return this._beschrijving;
+  }
+
+  get creatorId() {
+    return this._creatorId;
   }
 
   addSong(song: Song) {
@@ -68,6 +69,7 @@ export class Playlist {
       songIds: this.songs,
       isPublic: this.isPublic,
       beschrijving: this.beschrijving,
+      creatorId: this.creatorId,
       _id: this.id
     }
   }

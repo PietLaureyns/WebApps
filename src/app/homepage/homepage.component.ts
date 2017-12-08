@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UserDataService } from '../services/user-data.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-homepage',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomepageComponent implements OnInit {
 
-  constructor() { }
+  isUserLoggedIn: boolean = true;
+  user: User;
+
+  constructor(private userService: UserDataService, private auth: AuthenticationService) { }
 
   ngOnInit() {
+    this.auth.user$.subscribe(item => {
+      if (item == null) {
+        this.isUserLoggedIn = false;
+      }
+      else {
+        this.userService.ingelogdeGebruiker.subscribe(item => this.user = item);
+      }
+    });
   }
-
 }

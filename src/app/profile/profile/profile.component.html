@@ -5,7 +5,7 @@
         <img src="../../../assets/Images/profile_picture_2.png" alt="Card image cap">
       </div>
       <div class="card-block">
-        <h4 class="card-title">Piet Laureyns</h4>
+        <h4 class="card-title" *ngIf="user">{{user.firstname}} {{user.lastname}}</h4>
         <p class="card-text">
           I am a student, I study informatics at Hogent.
         </p>
@@ -18,47 +18,29 @@
       <div class="card-block">
         <ul class="list-group">
           <li *ngFor="let playlist of playlists" class="list-group-item text-center" style="border: solid grey 1px;">
-            <!--<button class="form-control" (click)="selectPlaylist(playlist.id)">{{playlist.name}}</button>-->
             <button class="form-control" routerLink="/playlist/{{playlist.id}}">{{playlist.name}}</button>
           </li>
-          <li class="list-group-item text-center">
+          <li *ngIf="isYourProfile" class="list-group-item text-center">
             <button class="form-control btn btn-primary" (click)="addNewPlaylistClick()"><i class="fa fa-plus"></i> Create new playlist</button>
           </li>
         </ul>
         <div>
-          <!--<ngb-alert *ngIf="alertAddedMessage" type="success" (close)="alertAddedMessage = null">{{ alertAddedMessage }}</ngb-alert>
-          <ngb-alert *ngIf="alertRemovedMessage" type="danger" (close)="alertRemovedMessage = null">{{ alertRemovedMessage }}</ngb-alert>-->
+          <ngb-alert *ngIf="alertAddedMessage" type="success" (close)="alertAddedMessage = null">{{ alertAddedMessage }}</ngb-alert>
+          <ngb-alert *ngIf="alertRemovedMessage" type="danger" (close)="alertRemovedMessage = null">{{ alertRemovedMessage }}</ngb-alert>
         </div>
       </div>
     </div>
   </div>
   <div class="col-8">
-    <!--<h1>Latest activity of Piet Laureyns</h1>-->
     <div class="card activityList" style="border: solid black 1px">
       <ul class="list-group">
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
-        <li class="list-group-item">aaaaaaaaa</li>
+        <li class="list-group-item">Hier komen de recente actions(created a playlist, became friends with, ...)</li>
+        <li class="list-group-item" *ngFor="let action of temporaryActions">{{action}}</li>
+
       </ul>
     </div>
   </div>
 </div>
 <div class="col-6 offset-3" *ngIf="addingNewPlaylist">
-  <app-add-playlist (newPlaylist)="addNewPlaylist($event)" (cancelNewPlaylist)="cancelAddingNewPlaylist($event)"></app-add-playlist>
+  <app-add-playlist [userId]="user.id" (newPlaylist)="addNewPlaylist($event)" (cancelNewPlaylist)="cancelAddingNewPlaylist($event)"></app-add-playlist>
 </div>

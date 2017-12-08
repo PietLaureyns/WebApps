@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PlaylistDataService } from '../../services/playlist-data.service';
 import { SongDataService } from '../../services/song-data.service';
+import { UserDataService } from '../../services/user-data.service';
 import { Playlist } from "../../models/playlist.model";
-import { Song } from "../../models/song.model";
+import { User } from "../../models/user.model";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -11,30 +13,39 @@ import { Song } from "../../models/song.model";
 })
 export class ProfileComponent implements OnInit {
 
-  playlists: Playlist[];
-  songs: Song[];
-  selectedPlaylist: Playlist;
+  playlists: Playlist[] = [];
   addingNewPlaylist: boolean = false;
   alertAddedMessage;
   alertRemovedMessage;
+  user: User;
+  isYourProfile: boolean = true;
+  temporaryActions: string[] = [".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "."];
 
-  constructor(private playlistService: PlaylistDataService, private songService: SongDataService) { }
+  constructor(private playlistService: PlaylistDataService, private songService: SongDataService,
+    private userService: UserDataService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.playlistService.playlists.subscribe(item => this.playlists = item);
-  }
-
-  selectPlaylist(playlistId) {
-    this.selectedPlaylist = this.playlists.find(p => p.id === playlistId);
-    console.log(playlistId + ": " + this.selectedPlaylist);
+    this.route.data.subscribe(item => {
+      if (item['user']) {
+        this.user = item['user'];
+        item['user'].playlists.forEach(p => this.playlistService.getPlaylistWithId(p).subscribe(val => this.playlists.push(val)));
+        this.isYourProfile = false;
+      } else {
+        this.userService.ingelogdeGebruiker.subscribe(item => {
+          this.user = item;
+          item.playlists.forEach(p => {
+            this.playlistService.getPlaylistWithId(p).subscribe(val => this.playlists.push(val));
+          });
+        });
+      }
+    });
   }
 
   addNewPlaylistClick() {
     this.addingNewPlaylist = true;
-    
   }
 
-  addNewPlaylist(playlist) {
+  addNewPlaylist(playlist: Playlist) {
     this.playlistService.addNewPlaylist(playlist).subscribe(item => this.playlists.push(item));
     this.alertAddedMessage = "Created " + playlist.name;
     setTimeout(() => this.alertAddedMessage = null, 5000);

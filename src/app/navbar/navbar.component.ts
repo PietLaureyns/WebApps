@@ -1,6 +1,6 @@
-import { Component, OnInit, NgModule } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-
+import { Observable } from 'rxjs/Rx';
+import { AuthenticationService } from '../services/authentication.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -9,10 +9,11 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 })
 export class NavbarComponent implements OnInit {
 
-  public search: FormGroup;
+  constructor(private authService: AuthenticationService) { }
 
-
-  constructor() { }
+  get currentUser(): Observable<string> {
+    return this.authService.user$;
+  }
 
   ngOnInit() {
   }

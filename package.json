@@ -5,12 +5,12 @@
   "scripts": {
     "ng": "ng",
     "startdev": "ng serve --proxy-config proxy.conf.json",
-    "start": "node ./bin/www",
+    "start": "node ./bin/www ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build -prod --aot"
+    "postinstall": "ng build"
   },
   "private": true,
   "dependencies": {
@@ -34,6 +34,7 @@
     "cookie-parser": "~1.4.3",
     "core-js": "^2.4.1",
     "debug": "~2.6.9",
+    "dotenv": "^4.0.0",
     "express": "~4.15.5",
     "express-jwt": "^5.3.0",
     "font-awesome": "^4.7.0",
@@ -45,7 +46,7 @@
     "passport-local": "^1.0.0",
     "rxjs": "^5.5.2",
     "serve-favicon": "~2.4.5",
-    "typescript": "~2.5.3",
+    "typescript": "^2.4.2",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {

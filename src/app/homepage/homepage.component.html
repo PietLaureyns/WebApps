@@ -1,3 +1,18 @@
-<p>
-  homepage works!
-</p>
+<div class="col-6 offset-3">
+  <div *ngIf="!isUserLoggedIn">
+    <div class="text-center">
+      <h1>Welcome to my Website!</h1>
+    </div>
+    <hr />
+    <br />
+    <div class="text-center">
+      <h3>Do you already have an account? Click <a [routerLink]="['/login']">here</a> to log in.</h3>
+      <h3>Click <a [routerLink]="['/register']">here</a> to register.</h3>
+    </div>
+  </div>
+  <div *ngIf="isUserLoggedIn">
+    <div class="text-center" *ngIf="user">
+      <h1>Welcome to my Website, {{user.username}}!</h1>
+    </div>
+  </div>
+</div>

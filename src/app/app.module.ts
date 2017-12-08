@@ -7,6 +7,7 @@ import { ProfileModule } from './profile/profile.module';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserModule } from './user/user.module';
 
 import { SongDataService } from './services/song-data.service';
 import { PlaylistDataService } from './services/playlist-data.service';
@@ -17,11 +18,14 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { SongComponent } from './song/song/song.component';
 import { AddSongComponent } from './song/add-song/add-song.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuthGuardService } from './services/auth-guard.service';
+import { PeopleComponent } from './people/people.component';
 
 const appRoutes: Routes = [
   { path: 'homepage', component: HomepageComponent },
-  { path: 'songs', component: SongComponent },
-  { path: 'add-song', component: AddSongComponent },
+  { path: 'songs', canActivate: [AuthGuardService], component: SongComponent },
+  { path: 'add-song', canActivate: [AuthGuardService], component: AddSongComponent },
+  { path: 'people', canActivate: [AuthGuardService], component: PeopleComponent },
   { path: '', redirectTo: 'homepage', pathMatch: "full" },
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -33,7 +37,8 @@ const appRoutes: Routes = [
     HomepageComponent,
     SongComponent,
     PageNotFoundComponent,
-    AddSongComponent
+    AddSongComponent,
+    PeopleComponent
   ],
   imports: [
     HttpModule,
@@ -44,6 +49,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     NgbModalModule,
     ProfileModule,
+    UserModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

@@ -4,7 +4,7 @@ import { PlaylistDataService } from '../../services/playlist-data.service';
 import { Song } from '../../models/song.model';
 import { Playlist } from '../../models/playlist.model';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { debounceTime } from "rxjs/operator/debounceTime";
+import { UserDataService } from '../../services/user-data.service';
 
 @Component({
   selector: 'app-song',
@@ -16,7 +16,7 @@ export class SongComponent implements OnInit {
   songs: Song[];
   filteredSongs: Song[] = [];
   addingNewSong: boolean = false;
-  playlists: Playlist[];
+  playlists: Playlist[] = [];
   alertSuccessMessage: string;
   alertWarningMessage: string;
   searchString: string = "";
@@ -25,10 +25,15 @@ export class SongComponent implements OnInit {
   public readonly genres: string[] = ["No Genre Filter", "Rock", "Pop", "Pop Rock", "Rap", "Hip Hop", "Metal", "Jazz",
     "Country", "Classical", "Alternative", "Electronic", "Techno"];
 
-  constructor(private songService: SongDataService, private playlistService: PlaylistDataService) { }
+  constructor(private songService: SongDataService, private playlistService: PlaylistDataService,
+    private userService: UserDataService) { }
 
   ngOnInit() {
-    this.playlistService.playlists.subscribe(p => this.playlists = p);
+    this.userService.ingelogdeGebruiker.subscribe(user => {
+      user.playlists.forEach(p => {
+        this.playlistService.getPlaylistWithId(p).subscribe(val => this.playlists.push(val));
+      });
+    });
     this.songService.songs.subscribe(s => {
       this.songs = s;
       this.filteredSongs = s;
@@ -57,9 +62,7 @@ export class SongComponent implements OnInit {
   }
 
   addNewSong(song) {
-    this.songService.addNewSong(song).subscribe(item => {
-      this.filteredSongs.push(item);
-    });
+    this.songService.addNewSong(song).subscribe(item => this.filteredSongs.push(item));
     this.addingNewSong = false;
     this.alertSuccessMessage = "'" + song.toString() + "' has been added!";
     setTimeout(() => this.alertSuccessMessage = null, 5000);
@@ -84,7 +87,6 @@ export class SongComponent implements OnInit {
     this.songService.removeSong(song).subscribe();
     this.songs = this.songs.filter(s => s.id !== song.id);
     this.filteredSongs = this.filteredSongs.filter(s => s.id !== song.id);
-
   }
 
   search(searchValue) {
@@ -98,8 +100,6 @@ export class SongComponent implements OnInit {
   }
 
   filter(genre, year, artistName, songname) {
-    console.log(genre + " - " + year + " - " + artistName + " - " + songname);
-
     this.search(this.searchString);
     if(genre !== this.genres[0])
       this.filteredSongs = this.filteredSongs.filter(song => song.genre === genre);
@@ -112,18 +112,11 @@ export class SongComponent implements OnInit {
           return a.artist.toLowerCase() == b.artist.toLowerCase() ? 0 : +(a.artist.toLowerCase() > b.artist.toLowerCase()) || -1;
         });
     }
-
     if (songname) {
       this.filteredSongs.sort(function (a, b) {
         return a.name.toLowerCase() == b.name.toLowerCase() ? 0 : +(a.name.toLowerCase() > b.name.toLowerCase()) || -1;
       });
     }
-
-    //this.filteredSongs.sort(function (a, b) {
-    //  return a.name > b.name;
-    //});
-
-
   }
 
   filterByYear(year) {

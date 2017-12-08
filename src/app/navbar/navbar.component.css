@@ -1,3 +1,23 @@
+.profileButton {
+  font-size: 150%;
+  background-color: #292b2c;
+  color: white;
+}
+
+.navbar a{
+  font-size: 120%;
+  color: white;
+}
+
+.dropdown-item {
+  color: black !important;
+}
+
+.profileButton:hover {
+  color: grey;
+}
+
+
 /*nav li a {
     color: white;
     text-decoration: none;

@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Song } from '../../models/song.model';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SongDataService } from '../../services/song-data.service';
 
 @Component({
@@ -14,20 +14,8 @@ export class AddSongComponent implements OnInit {
   @Output() cancelNewSong = new EventEmitter<boolean>();
 
   public song: FormGroup;
-  public readonly _genres: string[] = [
-    "Rock",
-    "Pop",
-    "Pop Rock",
-    "Rap",
-    "Hip Hop",
-    "Metal",
-    "Jazz",
-    "Country",
-    "Classical",
-    "Alternative",
-    "Electronic",
-    "Techno",
-    "No Genre"
+  public readonly _genres: string[] = ["Rock","Pop","Pop Rock","Rap","Hip Hop","Metal",
+    "Jazz","Country","Classical","Alternative", "Electronic", "Techno", "No Genre"
   ];
 
   constructor(private fb: FormBuilder, private songService: SongDataService) { }
@@ -38,10 +26,8 @@ export class AddSongComponent implements OnInit {
       artist: ["", [Validators.required]],
       genre: ["No Genre"],
       year: [2000, [Validators.required, Validators.max(new Date().getFullYear()), Validators.pattern("[0-9]{4}")]],
-      link: ["", [Validators.pattern('^(http|https)://')]]
+      link: ["", [Validators.pattern('^(http|https)://.*$')]]
     });
-
-    console.log(new Date().getFullYear());
   }
 
   get genres(){
@@ -58,7 +44,6 @@ export class AddSongComponent implements OnInit {
     );
 
     this.newSong.emit(song);
-    //this.songService.addNewSong(song).subscribe();
   }
 
   cancel(){

@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-2 offset-1 mt-5">
-    <div class="card mt-5">
+    <div class="card mt-5" *ngIf="isYourPlaylist">
       <div class="card-header text-center"><h3>Visiblity</h3></div>
       <div class="card-block text-center">
-        Your playlist is {{selectedPlaylist.getVisiblity()}} <!--<button class="btn btn-primary p-1">Change?</button>-->
+        Your playlist is {{selectedPlaylist.getVisiblity()}}
         <button class="btn btn-danger mt-5" (click)="removePlaylist()" routerLink="/profile"><i class="fa fa-remove"></i> Remove Playlist</button>
       </div>
     </div>
@@ -13,19 +13,20 @@
       <div class="card-header container-fluid col-12">
         <div class="row">
           <div class="col-2">
-            <button class="btn btn-primary float-left" routerLink="/profile"><i class="fa fa-mail-reply"></i> Back</button>
+            <button *ngIf="isYourPlaylist" class="btn btn-primary float-left" routerLink="/profile"><i class="fa fa-mail-reply"></i> Back</button>
+            <button *ngIf="!isYourPlaylist" class="btn btn-primary float-left" routerLink="/profile"><i class="fa fa-mail-reply"></i> Your profile</button>
           </div>
           <div class="col-8 text-center">
             <h1>{{selectedPlaylist.name}}</h1>
           </div>
           <div class="col-2">
-            <button class="btn btn-outline-primary float-right" routerLink="/songs"><i class="fa fa-plus"></i> Add Songs</button>
+            <button *ngIf="isYourPlaylist" class="btn btn-outline-primary float-right" routerLink="/songs"><i class="fa fa-plus"></i> Add Songs</button>
           </div>
         </div>
       </div>
-      <div class="card-block">
-        <ul class="list-group" *ngIf="selectedPlaylist.songs != undefined">
-          <li class="list-group-item row" *ngFor="let song of selectedPlaylist.songs">
+      <div class="card-block" >
+        <ul class="list-group" *ngIf="songs != undefined">
+          <li class="list-group-item row" *ngFor="let song of songs">
             <div class="col-5">
               {{song.toString()}}
             </div>
@@ -36,7 +37,7 @@
               <b>Release year:</b> {{song.year}}
             </div>
             <div class="col-1">
-              <button class="float-right btn btn-danger removeButton" (click)="removeSong(song)">
+              <button *ngIf="isYourPlaylist" class="float-right btn btn-danger removeButton" (click)="removeSong(song)">
                 <i class="fa fa-remove"></i>
               </button>
             </div>

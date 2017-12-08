@@ -1,0 +1,74 @@
+<div class="col-6 offset-3">
+  <div class="card">
+    <div class="card-header text-center">
+      <h1>Create new Account</h1>
+    </div>
+    <div class="card-block col-6 offset-3">
+      <form [formGroup]='user' (ngSubmit)='onSubmit()'>
+        <div class="form-group row">
+          <div class="col-3 float-right">
+            <label>Username:</label>
+          </div>
+          <div class="col-8">
+            <input class="form-control" type="text" formControlName='username'>
+            <div class='error' *ngIf=' user.get("username").errors?.required && user.get("username").touched'>
+              a username is required
+            </div>
+            <div class='error' *ngIf='user.get("username").errors?.minlength && user.get("username").touched'>
+              the username should be at least {{user.get("username").errors?.minlength.requiredLength }} letters
+            </div>
+            <div class='error' *ngIf='user.get("username").errors?.userAlreadyExists && user.get("username").touched'>
+              a user with that name already exists
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-3 float-right">
+            <label>Firstname:</label>
+          </div>
+          <div class="col-8">
+            <input class="form-control" formControlName='firstname'>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-3 float-right">
+            <label>Lastname:</label>
+          </div>
+          <div class="col-8">
+            <input class="form-control" formControlName='lastname'>
+          </div>
+        </div>
+        <div class="form-group" formGroupName='passwordGroup'>
+          <div class="row col-12">
+            <div class="col-3">
+              <label>Password:</label>
+            </div>
+            <div class="col-8 mb-3">
+            <input type="password" class="form-control" formControlName='password'>
+              <div class='error' *ngIf=' passwordControl.errors?.passwordTooShort && passwordControl.touched'>
+                password too short, please use at least {{passwordControl.errors?.passwordTooShort.requiredLength}} letters (got {{passwordControl.errors?.passwordTooShort.actualLength}})
+              </div>
+            </div>
+          </div>
+          <div class="row col-12">
+            <div class="col-3 float-right">
+              <label style="margin-left: -140%;">Confirm Password:</label>
+            </div>
+            <div class="col-8">
+              <input type="password" class="form-control" formControlName='confirmPassword'>
+            </div>
+          </div>
+          <div class='error' *ngIf=' user.get("passwordGroup").errors?.passwordsDiffer && user.get("passwordGroup").get("confirmPassword").touched  && user.get("passwordGroup").get("password").touched'>
+            the two passwords should be the same
+          </div>
+        </div>
+        <div class="col-12 mt-3">
+          <button type='submit' [disabled]='!user.valid' class="btn btn-primary col-8 offset-3"><i class="fa fa-user-plus"></i> Create account</button>
+        </div>
+      </form>
+      <div class="text-center col-8 offset-3 mt-3">
+        <p>Already have an account? click <a class='' routerLink="/login">here</a> to login.</p>
+      </div>
+    </div>
+  </div>
+</div>
