@@ -1,6 +1,6 @@
 # Link naar website
 
-https://webapps-pietlaureyns.herokuapp.com/
+https://webapps-pietlaureyns.herokuapp.com/homepage
 
 # WebappsOefening
 
